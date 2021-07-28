@@ -32,6 +32,7 @@ def get_coordinates():
 
 
 def get_time():
+    '''fetches current time as a pd.datetimeindex object localized to current timezone'''
     # calculate current timezone
     current_lat, current_long = get_coordinates()
     timezone = TimezoneFinder()
@@ -48,6 +49,10 @@ def get_time():
 
 
 def scout_light():
+    '''if it is currently day, calculates the length of current day and next night.
+        if it is night, calculates the length of current night and next day.
+        returns remaining length_of_day, remaining length_of_night as pd.timedelta 
+        objects and also returns boolean variable day.'''
     current_time = get_time()
     current_lat, current_long = get_coordinates()
     previous_times = pvlib.solarposition.sun_rise_set_transit_ephem(current_time, current_lat, current_long, next_or_previous='previous')
@@ -55,12 +60,12 @@ def scout_light():
     # calculate if now is day or night
     if previous_times.iloc[0,0] > previous_times.iloc[0,1]:
         day = True
-        length_of_day = next_times.iloc[0][1] - previous_times.iloc[0][0]
+        length_of_day = next_times.iloc[0][1] - current_time
         length_of_night = next_times.iloc[0][0] - next_times.iloc[0][1]
     else:
         day = False
         length_of_day = next_times.iloc[0][1] - next_times.iloc[0][0]
-        length_of_night =  next_times.iloc[0][0] - previous_times.iloc[0][1]
+        length_of_night =  next_times.iloc[0][0] - current_time
     return length_of_day, length_of_night, day
 
 
