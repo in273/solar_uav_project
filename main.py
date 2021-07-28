@@ -26,16 +26,23 @@ from timezonefinder import TimezoneFinder
 def get_coordinates():
     # code for fetching gps location here
     # below are placeholder coordinates for london
-    current_lat = 40.7 # 51.523659
-    current_long = -73.9 # -0.158541
+    current_lat = 51.523659
+    current_long = -0.158541
     return current_lat, current_long
 
 
 def get_time():
+    # calculate current timezone
     current_lat, current_long = get_coordinates()
     timezone = TimezoneFinder()
     current_timezone = timezone.timezone_at(lng=current_long, lat=current_lat)
     timestamp = pd.Timestamp.now().tz_localize(tz=current_timezone)
+    # note to self: the code above may appear to be redundant or not to work.
+    # this is because timestamp.now gets the local time. in order for the later code 
+    # to work this must be localised to a timezone, hence the first few lines of this
+    # subroutine. when the coordinates fetched differ in timezone from where the code
+    # is executed this will produce an error. however, given that the computer and its 
+    # gps are always in the same location, in practice this is impossible.
     time = pd.DatetimeIndex([timestamp])
     return time
 
@@ -46,19 +53,16 @@ def scout_light():
     previous_times = pvlib.solarposition.sun_rise_set_transit_ephem(current_time, current_lat, current_long, next_or_previous='previous')
     next_times = pvlib.solarposition.sun_rise_set_transit_ephem(current_time, current_lat, current_long)
     # calculate if now is day or night
-    print(pd.to_datetime(previous_times['sunrise']), "\n", pd.to_datetime(previous_times['sunset'])
-    if previous_times['sunrise'][0] > previous_times['sunset'][0]:
-        print("day")
+    if previous_times.iloc[0,0] > previous_times.iloc[0,1]:
+        day = True
+        length_of_day = next_times.iloc[0][1] - previous_times.iloc[0][0]
+        length_of_night = next_times.iloc[0][0] - next_times.iloc[0][1]
     else:
-        print("night")
-    return previous_times, next_times
+        day = False
+        length_of_day = next_times.iloc[0][1] - next_times.iloc[0][0]
+        length_of_night =  next_times.iloc[0][0] - previous_times.iloc[0][1]
+    return length_of_day, length_of_night, day
 
-scout_light()
-
-#     fetch sunset and sunrise times
-#     calculate length_of_day
-#     calculate length_of_night
-#     return length_of_day, length_of_night
 
 # def scout_path_weather():
 #     fetch weather data for current outlined path
