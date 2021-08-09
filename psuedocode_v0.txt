@@ -3,6 +3,42 @@
 ## will become more and more specific and detailed.
 
 
+class location(self, coordinates, height):
+    self.coords = coordinates
+    self.height = height
+    def get_power_gain(self):
+        fetch sunlight estimate for self.time
+        calculate power_gain estimate
+        return power_gain
+    def get_time_taken(self):
+        calculate speed, taking into account weather estimates
+        calculate time taken to pass through location
+        return location
+    def set_time(self, time):
+        self.time = time
+
+
+class path(self, instructions):
+    self.path = array(instructions)
+    def get_power_gain(self):
+        power_gain = 0
+        for location in self.path:
+            power_gain += location.get_power_gain()
+        return power_gain
+    def get_highest_threat_level(self):
+        highest_threat_level = very low
+        for location in self.path:
+            threat_level = location.get_threat_level()
+            if threat_level > highest_threat_level:
+                highest_threat_level = threat_level
+        return highest_threat_level
+    def get_time_taken(self, time):
+        time_taken = 0
+        for location in self.path:
+            time_taken += location.get_time_taken()
+        return time_taken
+
+
 def plane_launch():
     check landing gear is engaged
     start engines
