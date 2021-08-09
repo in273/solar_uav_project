@@ -10,6 +10,21 @@ from timezonefinder import TimezoneFinder
 
 # global variables (if any) and constants go here
 
+class location:
+    def __init__(self, coordinates, height):
+        self.coords = coordinates
+        self.height = height  
+#     def get_power_gain(self):
+#         fetch sunlight estimate for self.time
+#         calculate power_gain estimate
+#         return power_gain
+#     def get_time_taken(self):
+#         calculate speed, taking into account weather estimates
+#         calculate time taken to pass through location
+#         return location
+#     def set_time(self, time):
+#         self.time = time
+
 
 # def plane_launch():
 #     check landing gear is engaged
