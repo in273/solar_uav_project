@@ -1,5 +1,5 @@
 import numpy as np
-
+from main import location
 
 def make_grid():
     """ The thought here is to take a current position, and to make a grid that includes the next checkpoint we need to hit.
@@ -8,10 +8,11 @@ def make_grid():
 #    coordinates = current_location.coords
     coordinates = (51.523659,-0.158541)
 #    height = current_location.height
+    height = 1000
 
     # Step is how many degrees to add to each coordinate - 0.015060 is 1km.
     step = 0.015060
-    grid =[(coordinates[0] + i*step, coordinates[1] + j*step) for i in range (-20, 21) for j in range (-20, 21)]
-    
+#    grid =[[location((coordinates[0] + i*step, coordinates[1] + j*step), height) for i in range (-20, 21)] for j in range (-20, 21)]
+            
     
 make_grid()

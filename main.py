@@ -13,17 +13,19 @@ from timezonefinder import TimezoneFinder
 class location:
     def __init__(self, coordinates, height):
         self.coords = coordinates
-        self.height = height  
-#     def get_power_gain(self):
+        self.height = height
+        self.checkpoint = False
+#     def get_weather_power_gain_rate(self):
 #         fetch sunlight estimate for self.time
 #         calculate power_gain estimate
-#         return power_gain
+#         self.weather_power_gain_rate = power_gain_rate
+"""I want this as a rate rather than a fixed number so we can see if we should circle in areas rather than pass straight through them"""
 #     def get_time_taken(self):
 #         calculate speed, taking into account weather estimates
 #         calculate time taken to pass through location
 #         return location
 #     def set_time(self, time):
-#         self.time = time
+#         self.time = time   
 
 
 # def plane_launch():
@@ -37,13 +39,24 @@ class location:
 #     fetch power_level
 #     return power_level
 
+# def get_current_location():
+#   coordinates = get_coordinates()
+#   height = get_height()
+#   current_location = location(coordinates, height)
+#
+#   current_location.entry_time = get_time()
+#   distance_from_current = 0
+#
+#
+#
+
 
 def get_coordinates():
     # code for fetching gps location here
     # below are placeholder coordinates for london
     current_lat = 51.523659
     current_long = -0.158541
-    return current_lat, current_long
+    return (current_lat, current_long)
 
 
 def get_time():
